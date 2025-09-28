@@ -18,7 +18,7 @@ The fastest way to get started is using our automated Proxmox installation scrip
 
 ```bash
 # Download and run the Proxmox installation script
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/your-username/binance-portfolio-logger/main/proxmox-install.sh)"
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/kppethe/binance-portfolio-logger/main/proxmox-install.sh)"
 ```
 
 This will:
