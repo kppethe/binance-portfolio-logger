@@ -24,6 +24,7 @@ CONTAINER_RAM="512"
 CONTAINER_CPU_CORES="1"
 CONTAINER_TEMPLATE="ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
 CONTAINER_STORAGE="local-lvm"
+TEMPLATE_STORAGE="local"
 CONTAINER_BRIDGE="vmbr0"
 CONTAINER_VLAN=""
 CONTAINER_IP="dhcp"
@@ -104,8 +105,15 @@ get_user_input() {
     fi
     
     # Container name
-    read -p "Container name [$CONTAINER_NAME]: " input_name
+    read -p "LXC Container name [$CONTAINER_NAME]: " input_name
     CONTAINER_NAME=${input_name:-$CONTAINER_NAME}
+    
+    # Ensure container name doesn't contain "VM"
+    if [[ "$CONTAINER_NAME" == *"VM"* ]]; then
+        print_warning "Container name should not contain 'VM' - this creates an LXC container, not a VM"
+        CONTAINER_NAME="binance-portfolio-logger"
+        print_info "Using default container name: $CONTAINER_NAME"
+    fi
     
     # Container hostname
     read -p "Container hostname [$CONTAINER_HOSTNAME]: " input_hostname
@@ -133,8 +141,13 @@ get_user_input() {
     # Storage
     echo "Available storage:"
     pvesm status | grep -E "^[a-zA-Z]" | awk '{print "  - " $1 " (" $2 ")"}'
-    read -p "Storage [$CONTAINER_STORAGE]: " input_storage
+    echo
+    echo "Note: Templates and container disks may need different storage types"
+    read -p "Storage for container disk [$CONTAINER_STORAGE]: " input_storage
     CONTAINER_STORAGE=${input_storage:-$CONTAINER_STORAGE}
+    
+    read -p "Storage for templates [$TEMPLATE_STORAGE]: " input_template_storage
+    TEMPLATE_STORAGE=${input_template_storage:-$TEMPLATE_STORAGE}
     
     # Network
     echo "Available bridges:"
@@ -172,7 +185,8 @@ get_user_input() {
     echo "Disk Size: ${CONTAINER_DISK_SIZE}GB"
     echo "RAM: ${CONTAINER_RAM}MB"
     echo "CPU Cores: $CONTAINER_CPU_CORES"
-    echo "Storage: $CONTAINER_STORAGE"
+    echo "Container Storage: $CONTAINER_STORAGE"
+    echo "Template Storage: $TEMPLATE_STORAGE"
     echo "Network: $CONTAINER_BRIDGE"
     [[ -n "$CONTAINER_VLAN" ]] && echo "VLAN: $CONTAINER_VLAN"
     echo "IP: $CONTAINER_IP"
@@ -191,9 +205,9 @@ get_user_input() {
 download_template() {
     print_info "Checking for Ubuntu 22.04 template..."
     
-    if ! pveam list $CONTAINER_STORAGE | grep -q "$CONTAINER_TEMPLATE"; then
+    if ! pveam list $TEMPLATE_STORAGE | grep -q "$CONTAINER_TEMPLATE"; then
         print_info "Downloading Ubuntu 22.04 template..."
-        pveam download $CONTAINER_STORAGE $CONTAINER_TEMPLATE
+        pveam download $TEMPLATE_STORAGE $CONTAINER_TEMPLATE
         if [[ $? -ne 0 ]]; then
             print_error "Failed to download container template"
             exit 1
@@ -205,7 +219,9 @@ download_template() {
 
 # Function to create container
 create_container() {
-    print_info "Creating LXC container..."
+    print_info "Creating LXC container (NOT a VM)..."
+    print_info "Using container ID: $CONTAINER_ID"
+    print_info "Using container name: $CONTAINER_NAME"
     
     # Build network configuration
     local net_config="name=eth0,bridge=$CONTAINER_BRIDGE"
@@ -219,7 +235,7 @@ create_container() {
     fi
     
     # Create container
-    pct create $CONTAINER_ID $CONTAINER_STORAGE:vztmpl/$CONTAINER_TEMPLATE \
+    pct create $CONTAINER_ID $TEMPLATE_STORAGE:vztmpl/$CONTAINER_TEMPLATE \
         --hostname $CONTAINER_HOSTNAME \
         --password "$CONTAINER_PASSWORD" \
         --memory $CONTAINER_RAM \
