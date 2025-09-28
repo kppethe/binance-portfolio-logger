@@ -1,0 +1,6 @@
+2025-09-28 20:55:34 - binance_portfolio - INFO - _log_with_sanitization:218 - Portfolio logging execution started at 2025-09-28T20:55:34.769609
+2025-09-28 20:55:34 - binance_portfolio - INFO - _log_with_sanitization:218 - System info: {'python_version': '3.13.7', 'working_directory': 'E:\\Kaustubh\\Projects\\Test', 'process_id': 15448}
+2025-09-28 20:55:34 - binance_portfolio - WARNING - _log_with_sanitization:218 - API error in binance during get_prices: Rate limit exceeded - 429 Too Many Requests. Category: api_error, Retry recommended: True
+2025-09-28 20:55:34 - binance_portfolio - ERROR - _log_with_sanitization:218 - API error in binance during get_balances: Invalid API signature - 401 Unauthorized. Category: authentication, Retry recommended: False
+2025-09-28 20:55:34 - binance_portfolio - WARNING - _log_with_sanitization:218 - API error in google_sheets during append_data: Connection timeout after 30 seconds. Category: network, Retry recommended: True
+2025-09-28 20:55:34 - binance_portfolio - ERROR - _log_with_sanitization:218 - Portfolio logging execution failed after 0.01s. Error category: api_error, Error: Too many consecutive API failures

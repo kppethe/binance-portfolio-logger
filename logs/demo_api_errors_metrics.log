@@ -1,0 +1,1 @@
+2025-09-28 20:55:34 - INFO - Performance metrics: {'timestamp': '2025-09-28T20:55:34.783318', 'execution_duration_seconds': 0.012, 'total_api_calls': 0, 'api_calls_by_service': {}, 'assets_processed': 0, 'conversion_failures': 0, 'portfolio_value_usdt': None, 'errors_count': 4, 'success': False}

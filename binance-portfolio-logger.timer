@@ -1,0 +1,17 @@
+[Unit]
+Description=Run Binance Portfolio Logger Daily
+Documentation=https://github.com/your-repo/binance-portfolio-logger
+Requires=binance-portfolio-logger.service
+
+[Timer]
+# Run daily at 8:00 AM
+OnCalendar=*-*-* 08:00:00
+# Run 5 minutes after boot if we missed the scheduled time
+OnBootSec=5min
+# Add randomization to prevent all instances running at exactly the same time
+RandomizedDelaySec=300
+# Ensure the service runs even if the system was off during the scheduled time
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,38 @@
+[Unit]
+Description=Binance Portfolio Logger Service
+Documentation=https://github.com/your-repo/binance-portfolio-logger
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=oneshot
+User=binance-logger
+Group=binance-logger
+WorkingDirectory=/opt/binance-portfolio-logger
+Environment=PATH=/opt/binance-portfolio-logger/venv/bin
+ExecStart=/opt/binance-portfolio-logger/venv/bin/python /opt/binance-portfolio-logger/main.py
+StandardOutput=append:/var/log/binance-portfolio/portfolio.log
+StandardError=append:/var/log/binance-portfolio/errors.log
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/binance-portfolio
+ReadOnlyPaths=/opt/binance-portfolio-logger
+
+# Resource limits
+TimeoutStartSec=90
+TimeoutStopSec=30
+MemoryMax=512M
+CPUQuota=50%
+
+# Restart policy
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

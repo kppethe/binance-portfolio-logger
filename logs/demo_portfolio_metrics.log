@@ -1,0 +1,1 @@
+2025-09-28 20:55:34 - INFO - Performance metrics: {'timestamp': '2025-09-28T20:55:34.748481', 'execution_duration_seconds': 0.712, 'total_api_calls': 4, 'api_calls_by_service': {'binance': 3, 'google_sheets': 1}, 'assets_processed': 8, 'conversion_failures': 1, 'portfolio_value_usdt': 3247.89, 'errors_count': 0, 'success': True}

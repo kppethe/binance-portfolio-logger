@@ -1,0 +1,14 @@
+# Logrotate configuration for Binance Portfolio Logger
+logs/*.log {
+    daily
+    rotate 30
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 644 binance-logger binance-logger
+    postrotate
+        # Send HUP signal to any running processes if needed
+        /bin/kill -HUP `cat /var/run/binance-portfolio.pid 2> /dev/null` 2> /dev/null || true
+    endscript
+}

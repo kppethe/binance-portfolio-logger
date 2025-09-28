@@ -1,0 +1,37 @@
+# Binance Portfolio Logger Dependencies
+# Core dependencies for Binance API integration
+python-binance==1.0.19
+
+# Google Sheets API integration
+gspread==5.12.4
+google-auth==2.23.4
+google-auth-oauthlib==1.1.0
+google-auth-httplib2==0.1.1
+
+# Configuration and environment management
+python-dotenv==1.0.0
+
+# HTTP requests and utilities
+requests==2.31.0
+urllib3==2.0.7
+
+# Data handling and validation
+pandas==2.1.4
+numpy==1.24.4
+
+# Logging and monitoring
+structlog==23.2.0
+
+# Testing dependencies (for development)
+pytest==7.4.3
+pytest-mock==3.12.0
+pytest-cov==4.1.0
+responses==0.24.1
+
+# Development tools
+black==23.11.0
+flake8==6.1.0
+mypy==1.7.1
+
+# Security and cryptography (required by python-binance)
+cryptography==41.0.8

@@ -1,0 +1,4 @@
+2025-09-28 20:55:34 - binance_portfolio - INFO - _log_with_sanitization:218 - Binance API configured with api_key="[REDACTED]"
+2025-09-28 20:55:34 - binance_portfolio - INFO - _log_with_sanitization:218 - Google credentials loaded from file with client_secret="[REDACTED]"
+2025-09-28 20:55:34 - binance_portfolio - INFO - _log_with_sanitization:218 - Database connection: password="[REDACTED]" for user admin
+2025-09-28 20:55:34 - binance_portfolio - INFO - _log_with_sanitization:218 - JWT token received: token="[REDACTED]"
